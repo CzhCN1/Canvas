@@ -85,13 +85,13 @@
 				render(context);
 				update();
 			},50);
-		}
+		};
 
 		//更新方块数据
 		function update(){
 			var maxLevel = countLevel(newSquare.x,newSquare.y,newSquare.start[0],newSquare.len[0]),
 				maxHight = maxLevel * UNIT_WIDTH + 100;
-			if(maxLevel == 0 || maxLevel == -1){
+			if(maxLevel === 0 || maxLevel == -1){
 				clearInterval(timer);
 				alert("GAME OVER");
 			}
@@ -183,18 +183,17 @@
 
 		//键盘按键按下事件
 		function doKeyDown(eve){
-
 			var keyCode = eve.keyCode || eve.which || eve.charCode; 
 			var xNow = newSquare.x / 25,
 				yNow = Math.floor((newSquare.y - 100)/25);
 			//右移
 			if(keyCode == 39 && (newSquare.x + newSquare.len[2]*UNIT_WIDTH)< 250 ){
-				if(position[yNow+1][xNow + newSquare.len[0]+newSquare.start[0]] == 0 && position[yNow][xNow + newSquare.len[1]+newSquare.start[1]] == 0){
+				if(position[yNow+1][xNow + newSquare.len[0]+newSquare.start[0]] === 0 && position[yNow][xNow + newSquare.len[1]+newSquare.start[1]] === 0){
 					newSquare.x += UNIT_WIDTH;
 				}
 			//左移
 			}else if(keyCode == 37 && newSquare.x>0){
-				if(position[yNow+1][xNow+newSquare.start[0]-1] == 0 && position[yNow][xNow+newSquare.start[1]-1] == 0 ){
+				if(position[yNow+1][xNow+newSquare.start[0]-1] === 0 && position[yNow][xNow+newSquare.start[1]-1] === 0 ){
 					newSquare.x -= UNIT_WIDTH;
 				}
 			//翻转
@@ -287,12 +286,36 @@
 			//填充颜色设置
 			cxt.fillStyle = "rgb(249,47,41)";
 			cxt.strokeStyle = "#CCC";
-
-			//绘制
-			drawUnit(x,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y,cxt);
-			drawUnit(x + UNIT_WIDTH * 3,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+					drawUnit(x + UNIT_WIDTH * 3,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y - UNIT_WIDTH * 2,cxt);
+					drawUnit(x,y - UNIT_WIDTH * 3,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 3,y,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y + UNIT_WIDTH,cxt);
+					drawUnit(x,y + UNIT_WIDTH * 2,cxt);
+					drawUnit(x,y + UNIT_WIDTH * 3,cxt);
+					break;
+			}
 
 		}
 		//绘制左L
@@ -300,48 +323,145 @@
 			//填充颜色设置
 			cxt.fillStyle = "rgb(187,30,250)";
 			cxt.strokeStyle = "#CCC";
-
-			//绘制
-			drawUnit(x,y - UNIT_WIDTH,cxt);
-			drawUnit(x,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					
+					drawUnit(x,y - UNIT_WIDTH * 2,cxt);
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y + UNIT_WIDTH,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y + UNIT_WIDTH,cxt);
+					drawUnit(x,y + UNIT_WIDTH*2,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					break;
+			}
 		}
 		//绘制右L
 		function drawLR(x,y,cxt){
 			//填充颜色设置
 			cxt.fillStyle = "rgb(146,156,154)";
 			cxt.strokeStyle = "#CCC";
-
-			//绘制
-			drawUnit(x + UNIT_WIDTH * 2,y - UNIT_WIDTH,cxt);
-			drawUnit(x,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x + UNIT_WIDTH * 2,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y - UNIT_WIDTH*2,cxt);
+					drawUnit(x - UNIT_WIDTH,y - UNIT_WIDTH*2,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y + UNIT_WIDTH,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y + UNIT_WIDTH,cxt);
+					drawUnit(x,y + UNIT_WIDTH*2,cxt);
+					drawUnit(x + UNIT_WIDTH,y + UNIT_WIDTH*2,cxt);
+					break;
+			}
 		}
 		//绘制左Z
 		function drawZL(x,y,cxt){
 			//填充颜色设置
 			cxt.fillStyle = "rgb(10,219,185)";
 			cxt.strokeStyle = "#CCC";
-
-			//绘制
-			drawUnit(x,y  - UNIT_WIDTH,cxt);
-			drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x,y  - UNIT_WIDTH,cxt);
+					drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					drawUnit(x,y  - UNIT_WIDTH,cxt);
+					drawUnit(x,y - UNIT_WIDTH * 2,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x,y  + UNIT_WIDTH,cxt);
+					drawUnit(x - UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y  + UNIT_WIDTH,cxt);
+					drawUnit(x,y + UNIT_WIDTH * 2,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					break;
+			}
 		}
 		//绘制右Z
 		function drawZR(x,y,cxt){
 			//填充颜色设置
 			cxt.fillStyle = "rgb(15,170,22)";
 			cxt.strokeStyle = "#CCC";
-
-			//绘制
-			drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y - UNIT_WIDTH,cxt);
-			drawUnit(x,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					drawUnit(x - UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					drawUnit(x - UNIT_WIDTH,y - UNIT_WIDTH * 2,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x- UNIT_WIDTH * 2,y + UNIT_WIDTH,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y  + UNIT_WIDTH,cxt);
+					drawUnit(x + UNIT_WIDTH,y + UNIT_WIDTH * 2,cxt);
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					break;
+			}
 		}
 		//绘制T型
 		function drawT(x,y,cxt){
@@ -349,11 +469,36 @@
 			cxt.fillStyle = "rgb(241,241,26)";
 			cxt.strokeStyle = "#CCC";
 
-			//绘制
-			drawUnit(x,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y,cxt);
-			drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
-			drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+			switch(newSquare.rotate%4){
+				case 0:
+					//正向
+					drawUnit(x,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y,cxt);
+					drawUnit(x + UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					drawUnit(x + UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 1:
+					//逆时针旋一次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y - UNIT_WIDTH,cxt);
+					drawUnit(x,y - UNIT_WIDTH * 2,cxt);
+					drawUnit(x - UNIT_WIDTH,y - UNIT_WIDTH,cxt);
+					break;
+				case 2:
+					//逆时针旋两次
+					drawUnit(x,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y,cxt);
+					drawUnit(x - UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					drawUnit(x - UNIT_WIDTH * 2,y,cxt);
+					break;
+				case 3:
+					//逆时针旋三次
+					drawUnit(x,y,cxt);
+					drawUnit(x,y + UNIT_WIDTH,cxt);
+					drawUnit(x,y + UNIT_WIDTH * 2,cxt);
+					drawUnit(x + UNIT_WIDTH,y + UNIT_WIDTH,cxt);
+					break;
+			}
 		}
 	</script>
 </body>
