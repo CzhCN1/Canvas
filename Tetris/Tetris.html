@@ -13,6 +13,7 @@
 </head>
 <body>
 	<canvas id="canvas"></canvas>
+	<script src="shape.js"></script>
 	<script>
 		var WINDOW_WIDTH = 250,
 			WINDOW_HEIGHT = 600,
@@ -165,7 +166,46 @@
 			cxt.font="bold 40px Arial";
 			cxt.fillText("Score:"+score,0,50);
 		}
-
+		//返回方块能达到的最大高度值
+		function countLv(){
+			var shapePosition,maxHight = 0;
+			switch(newSquare.kind){
+				case 0:
+					shapePosition = linePosition;
+					break;
+				case 1:
+					shapePosition = squarePosition;
+					break;
+				case 2:
+					shapePosition = LLPosition;
+					break;
+				case 3:
+					shapePosition = LRPosition;
+					break;
+				case 4:
+					shapePosition = ZLPosition;
+					break;
+				case 5:
+					shapePosition = ZRPosition;
+					break;
+				case 6:
+					shapePosition = TPosition;
+					break;
+			}
+			for(var i = 0;i < 7;i++){
+				for(var j = 0;j < 7;j++){
+					if(shapePosition[i][j]){
+						for(var i=yStart;i<20;i++){
+							for(var j = xStart;j<len+xStart;j++){
+								if(position[i][j]){
+									return i - 1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		//满行消除
 		function clear(){
 			for(var i = 0;i < 20;i++){
